@@ -5,17 +5,254 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Fitness Trainer — бакалаврська робота</title>
-  <meta name="description" content="Лендінг бакалаврської роботи Fitness Trainer — Інформаційне та програмне забезпечення системи 
-Онлайн-супроводу фітнес-тренувань." />
-  <meta name="keywords" content="Fitness Trainer, Telegram bot, фітнес, тренування, калорії, бакалаврська робота" />
-  <meta name="author" content="Kyrylov Volodymyr" />
 
-  <meta property="og:title" content="Fitness Trainer — бакалаврська робота" />
-  <meta property="og:description" content="Telegram-бот для фітнес-супроводу користувачів, створення планів тренувань і контролю прогресу." />
+  <meta name="description" content="Fitness Trainer — Telegram-бот для фітнес-супроводу: профіль користувача, калорії, плани тренувань, вправи, нагадування, прогрес і статистика." />
+  <meta name="keywords" content="Fitness Trainer, Telegram bot, фітнес, тренування, калорії, Python, SQLite, прогрес, бакалаврська робота" />
+  <meta name="author" content="Student" />
+
+  <meta property="og:title" content="Fitness Trainer — Telegram-бот для фітнес-супроводу" />
+  <meta property="og:description" content="Система онлайн-супроводу фітнес-тренувань з профілем, планами, вправами, нагадуваннями та статистикою." />
   <meta property="og:type" content="website" />
 
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #1f2937;
+      background: #f4f7f5;
+    }
+
+    header {
+      background: #111827;
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    nav {
+      max-width: 1150px;
+      margin: 0 auto;
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .logo {
+      font-weight: bold;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 15px;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .hero {
+      max-width: 1150px;
+      margin: 0 auto;
+      padding: 80px 16px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #dcfce7;
+      color: #166534;
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-weight: bold;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: 56px;
+      color: #111827;
+      line-height: 1.1;
+    }
+
+    .hero h2 {
+      margin-top: 14px;
+      font-size: 28px;
+    }
+
+    .hero h3 {
+      margin-top: 6px;
+      color: #4b5563;
+      font-size: 20px;
+    }
+
+    .hero p {
+      margin-top: 20px;
+      font-size: 18px;
+      max-width: 700px;
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 24px;
+      padding: 13px 22px;
+      background: #16a34a;
+      color: white;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .button:hover {
+      background: #15803d;
+    }
+
+    .phone {
+      background: #111827;
+      border-radius: 34px;
+      padding: 18px;
+      width: 280px;
+      margin: 0 auto;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+    }
+
+    .screen {
+      background: #ecfdf5;
+      border-radius: 24px;
+      padding: 22px;
+    }
+
+    .screen p {
+      background: white;
+      padding: 12px;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      font-weight: bold;
+    }
+
+    section {
+      max-width: 1150px;
+      margin: 0 auto 24px;
+      padding: 42px 16px;
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+    }
+
+    section h2 {
+      font-size: 30px;
+      margin-bottom: 16px;
+      color: #111827;
+    }
+
+    section h3 {
+      margin-top: 20px;
+      margin-bottom: 10px;
+      color: #166534;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      padding: 18px;
+      border-radius: 14px;
+    }
+
+    .card h3 {
+      margin-top: 0;
+    }
+
+    .list {
+      padding-left: 20px;
+      margin-top: 10px;
+    }
+
+    .keywords {
+      margin-top: 20px;
+      padding: 16px;
+      background: #f0fdf4;
+      border-left: 4px solid #16a34a;
+      border-radius: 8px;
+    }
+
+    .tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .tech span {
+      background: #dcfce7;
+      color: #166534;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      padding: 28px;
+      background: #111827;
+      color: white;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 850px) {
+      nav {
+        flex-direction: column;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 50px 16px;
+      }
+
+      h1 {
+        font-size: 40px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 
   <script type="application/ld+json">
   {
@@ -24,24 +261,22 @@
     "name": "Fitness Trainer",
     "applicationCategory": "HealthApplication",
     "operatingSystem": "Telegram",
-    "description": "Telegram-бот для фітнес-тренувань, розрахунку калорій, планування занять і відстеження прогресу."
+    "programmingLanguage": "Python",
+    "description": "Telegram-бот для створення профілю користувача, розрахунку калорій, планування тренувань, перегляду вправ, нагадувань та відстеження прогресу."
   }
   </script>
 </head>
 
 <body>
-  <header class="header">
-    <nav class="nav" aria-label="Головна навігація">
-      <div class="logo">
-        <img src="favicon.svg" alt="Логотип Fitness Trainer" />
-        <span>Fitness Trainer</span>
-      </div>
-
+  <header>
+    <nav aria-label="Головна навігація">
+      <div class="logo">🏋️ Fitness Trainer</div>
       <ul>
         <li><a href="#about">Опис</a></li>
+        <li><a href="#features">Функції</a></li>
         <li><a href="#goal">Мета</a></li>
         <li><a href="#tasks">Завдання</a></li>
-        <li><a href="#results">Результати</a></li>
+        <li><a href="#tech">Технології</a></li>
         <li><a href="#contacts">Контакти</a></li>
       </ul>
     </nav>
@@ -49,96 +284,231 @@
 
   <main>
     <section class="hero" aria-labelledby="main-title">
-      <div class="hero-text">
-        <p class="badge">Бакалаврська робота</p>
-
+      <div>
+        <span class="badge">Бакалаврська робота</span>
         <h1 id="main-title">Fitness Trainer</h1>
-
         <h2>Система онлайн-супроводу фітнес-тренувань</h2>
         <h3>Online Fitness Training Support System</h3>
 
-        <p class="description">
-          Telegram-бот для створення персонального профілю, розрахунку калорій,
-          формування плану тренувань, перегляду вправ, нагадувань і контролю прогресу.
+        <p>
+          Fitness Trainer — це Telegram-бот, який допомагає користувачу створити
+          персональний профіль, розрахувати норму калорій, отримати план тренувань,
+          переглядати вправи, встановлювати нагадування та контролювати прогрес.
         </p>
 
-        <a class="button" href="#about">Детальніше</a>
+        <a class="button" href="#features">Переглянути можливості</a>
       </div>
 
-      <div class="hero-card" aria-label="Графічне представлення проєкту">
-        <div class="phone">
-          <div class="screen">
-            <p>🏋️ Fitness Trainer</p>
-            <p>🍎 Калорії</p>
-            <p>📅 План тренувань</p>
-            <p>📈 Прогрес</p>
-          </div>
+      <div class="phone" aria-label="Імітація інтерфейсу Telegram-бота">
+        <div class="screen">
+          <p>🏠 Головна</p>
+          <p>👤 Профіль</p>
+          <p>🍎 Калорії</p>
+          <p>📅 План</p>
+          <p>💪 Вправи</p>
+          <p>⏰ Нагадування</p>
+          <p>📈 Прогрес</p>
         </div>
       </div>
     </section>
 
-    <section id="about" class="section">
+    <section id="about">
       <h2>Актуальність теми</h2>
       <p>
-        Сучасні користувачі все частіше використовують мобільні сервіси для контролю
-        здоров’я, харчування та фізичної активності. Telegram-бот дозволяє швидко
-        отримувати рекомендації без встановлення окремого застосунку, що робить систему
-        зручною та доступною.
+        Сучасні користувачі потребують зручних цифрових інструментів для контролю
+        фізичної активності, харчування та прогресу. Telegram-бот є зручним рішенням,
+        оскільки не потребує встановлення окремого застосунку та працює безпосередньо
+        у звичному месенджері.
       </p>
 
       <div class="keywords">
         <strong>Ключові слова:</strong>
-        Telegram-бот, фітнес, тренування, калорії, SQLite, Python, прогрес користувача.
+        Telegram-бот, фітнес, тренування, калорії, Python, SQLite, прогрес користувача,
+        нагадування, база вправ, статистика.
       </div>
     </section>
 
-    <section id="goal" class="section">
+    <section id="features">
+      <h2>Функціональні можливості бота</h2>
+
+      <div class="grid">
+        <article class="card">
+          <h3>👤 Профіль користувача</h3>
+          <p>
+            Бот дозволяє створити або редагувати профіль користувача:
+            ім’я, вік, стать, зріст, вагу та фітнес-мету.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>🎯 Цілі тренувань</h3>
+          <p>
+            Користувач може обрати мету: набір маси, схуднення або підтримання форми.
+            Також доступна зміна мети після створення профілю.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>🍎 Калькулятор калорій</h3>
+          <p>
+            Розрахунок виконується за формулою Міффліна — Сан Жеора з урахуванням
+            активності та обраної мети користувача.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>🥗 План харчування</h3>
+          <p>
+            Бот формує орієнтовну норму білків, жирів і вуглеводів, а також пропонує
+            приклад розподілу калорій на день.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>📅 План тренувань</h3>
+          <p>
+            Система створює тренувальні плани для схуднення, набору маси або підтримання
+            форми з урахуванням віку користувача.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>💪 База вправ</h3>
+          <p>
+            У боті є вправи для різних груп м’язів: спина, ноги, груди, плечі, біцепс,
+            трицепс, передпліччя та сідниці.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>🎥 Демонстрації вправ</h3>
+          <p>
+            Для вправ зберігається опис техніки виконання, цільові м’язи та посилання
+            на демонстраційне відео.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>⏰ Нагадування</h3>
+          <p>
+            Користувач може встановити дату, час і текст нагадування. Бот надсилає
+            повідомлення у заданий час за київським часовим поясом.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>📈 Відстеження прогресу</h3>
+          <p>
+            Реалізовано запис ваги, замірів тіла та тренувань із кількістю підходів,
+            повторень і робочою вагою.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>📊 Статистика</h3>
+          <p>
+            Бот показує останні записи ваги, замірів і тренувань, що дозволяє
+            аналізувати зміни користувача.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>💾 Збереження у файл</h3>
+          <p>
+            Результати розрахунку калорій і план тренувань можна зберегти у текстовий
+            файл та отримати документом у Telegram.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>📞 Зв’язок з розробником</h3>
+          <p>
+            Передбачена команда для зв’язку з розробником через Telegram-контакт.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="goal">
       <h2>Мета дослідження</h2>
       <p>
         Метою роботи є розробка програмного забезпечення для онлайн-супроводу
-        фітнес-тренувань, яке допомагає користувачу створити профіль, отримати
-        індивідуальні рекомендації та контролювати власний прогрес.
+        фітнес-тренувань у вигляді Telegram-бота, який надає користувачу персональні
+        рекомендації, допомагає планувати тренування та контролювати фізичний прогрес.
       </p>
     </section>
 
-    <section id="tasks" class="section">
+    <section id="tasks">
       <h2>Основні завдання</h2>
-      <ul class="cards">
-        <li>Розробити Telegram-бота з меню та командами користувача.</li>
-        <li>Реалізувати створення й редагування персонального профілю.</li>
-        <li>Додати розрахунок калорій та формування плану харчування.</li>
-        <li>Створити базу вправ за групами м’язів.</li>
-        <li>Реалізувати відстеження ваги, замірів і тренувального прогресу.</li>
+      <ul class="list">
+        <li>Розробити Telegram-бота з головним меню та командами користувача.</li>
+        <li>Реалізувати створення, перегляд і редагування профілю користувача.</li>
+        <li>Додати розрахунок калорій і формування харчових рекомендацій.</li>
+        <li>Реалізувати автоматичне створення планів тренувань за метою користувача.</li>
+        <li>Створити базу вправ із описом, групами м’язів і демонстраційними посиланнями.</li>
+        <li>Додати систему нагадувань для тренувань або інших подій.</li>
+        <li>Реалізувати облік ваги, замірів тіла, тренувань і статистики прогресу.</li>
       </ul>
     </section>
 
-    <section class="section">
-      <h2>Методологія дослідження</h2>
+    <section>
+      <h2>Методологія розробки</h2>
       <p>
-        У роботі використано методи проєктування програмного забезпечення,
-        розробку бази даних SQLite, асинхронну обробку повідомлень Telegram Bot API,
-        а також принципи модульної побудови застосунку.
+        Для створення системи використано асинхронну обробку повідомлень Telegram Bot API,
+        локальну базу даних SQLite для збереження профілів, вправ і прогресу,
+        планувальник APScheduler для нагадувань, а також бібліотеки pandas і matplotlib
+        для обробки та візуалізації статистичних даних.
       </p>
     </section>
 
-    <section id="results" class="section">
+    <section>
       <h2>Очікувані результати</h2>
       <p>
         Очікуваним результатом є працездатний Telegram-бот, який забезпечує користувача
-        інструментами для фітнес-супроводу: профілем, планами тренувань, розрахунками
-        калорій, нагадуваннями та статистикою прогресу.
+        інструментами для ведення фітнес-профілю, отримання персональних рекомендацій,
+        планування тренувань, перегляду вправ, встановлення нагадувань і контролю
+        власного прогресу.
       </p>
     </section>
 
-    <section id="contacts" class="section contact">
+    <section id="tech">
+      <h2>Технології</h2>
+      <div class="tech">
+        <span>Python</span>
+        <span>SQLite</span>
+        <span>Telegram Bot API</span>
+        <span>python-telegram-bot</span>
+        <span>APScheduler</span>
+        <span>pytz</span>
+        <span>pandas</span>
+        <span>matplotlib</span>
+        <span>HTML</span>
+        <span>CSS</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>Команди бота</h2>
+      <ul class="list">
+        <li><strong>/start</strong> — запуск бота та показ головного меню.</li>
+        <li><strong>/create</strong> — створення або редагування профілю.</li>
+        <li><strong>/calories</strong> — розрахунок добової норми калорій.</li>
+        <li><strong>/plan</strong> — отримання плану тренувань.</li>
+        <li><strong>/statistics</strong> — перегляд статистики прогресу.</li>
+        <li><strong>/callback</strong> — зв’язок із розробником.</li>
+      </ul>
+    </section>
+
+    <section id="contacts">
       <h2>Контактна інформація</h2>
-      <p><strong>Автор:</strong> Kyrylov Volodymyr</p>
-      <p><strong>Проєкт:</strong> Fitness Trainer</p>
-      <p><strong>GitHub:</strong> <a href="https://github.com/vovectuzec/fitness-trainer">github.com/vovectuzec/fitness-trainer</a></p>
+      <p><strong>Автор:</strong>Кирилов Володимир</p>
+      <p><strong>Назва проєкту:</strong> Fitness Trainer</p>
+      <p><strong>GitHub:</strong> <a href="https://github.com/vovectuzec/fitness-web">github.com/vovectuzec/fitness-web</a></p>
+      <p><strong>Telegram-контакт:</strong> @amiyakatabaka</p>
     </section>
   </main>
 
-  <footer class="footer">
+  <footer>
     <p>© 2026 Fitness Trainer. Bachelor Project Landing Page.</p>
   </footer>
 </body>
